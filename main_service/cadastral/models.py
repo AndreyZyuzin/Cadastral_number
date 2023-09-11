@@ -13,10 +13,12 @@ class Query(models.Model):
     longitude = models.FloatField(verbose_name='Долгота',
                                   help_text='Значение долготы',)
     time_came = models.DateTimeField(verbose_name='In Time',
-                                     help_text='Время прислонного запроса',)
-    time_went = models.DateTimeField(verbose_name='Out Time',
+                                     help_text='Время присланного запроса',)
+    time_went = models.DateTimeField(null=True, blank=True,
+                                     verbose_name='Out Time',
                                      help_text='Время отправленного запроса',)
-    result_response = models.BooleanField(verbose_name='Ответ',
+    result_response = models.BooleanField(null=True, blank=True,
+                                          verbose_name='Ответ',
                                           help_text='Ответ внешнего сервера',)
 
     class Meta:

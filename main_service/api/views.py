@@ -14,7 +14,6 @@ def external_query():
     time.sleep(10)
     result = choice([True, False])
     print(result)
-    print('Done')
     return {'result': result}
 
 

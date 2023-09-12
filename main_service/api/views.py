@@ -1,20 +1,10 @@
-import time
 from datetime import datetime
-from random import choice
 
 from rest_framework import viewsets
 from django.http import JsonResponse
 
 from cadastral.models import Query
 from api.serializers import QuerySerializer, ResultSerializer
-
-
-def external_query():
-    print('external:')
-    time.sleep(10)
-    result = choice([True, False])
-    print(result)
-    return {'result': result}
 
 
 class QueryViewSet(viewsets.ModelViewSet):
@@ -24,7 +14,7 @@ class QueryViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(time_came=datetime.now())
-        res = external_query()
+        res = {'result': 42}
         serializer.save(result_response=res['result'],
                         time_went=datetime.now())
 

@@ -8,7 +8,7 @@ tz = timezone.get_default_timezone()
 
 
 class QueryAdmin(admin.ModelAdmin):
-    list_display = ('cadastral_number', 'latitude', 'longitude',
+    list_display = ('id', 'cadastral_number', 'latitude', 'longitude',
                     'get_time_came', 'result_response', 'get_time_went')
     list_display_links = list_display
     fields = ('cadastral_number', 'latitude', 'longitude',

@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-MIN_DELAY = 2
-MAX_DELAY = 6
+MIN_DELAY = 20
+MAX_DELAY = 60
 
 
 @api_view(['POST'])

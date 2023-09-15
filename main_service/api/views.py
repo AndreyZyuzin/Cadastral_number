@@ -5,13 +5,11 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
 
 from cadastral.models import Query
 from api.serializers import QuerySerializer, ResultSerializer
 from api.tasks import request_post_external_server
-
-EXTERNAL_RESULT = 'http://localhost:8001/result/'
-EXTERNAL_PING = 'http://localhost:8001'
 
 
 class QueryViewSet(viewsets.ModelViewSet):
@@ -23,7 +21,7 @@ class QueryViewSet(viewsets.ModelViewSet):
         query = serializer.save(time_came=datetime.now())
         query_id = query.id
         print(serializer.data)
-        res = requests.post(EXTERNAL_RESULT, data=serializer.data)
+        res = requests.post(settings.EXTERNAL_RESULT, data=serializer.data)
         res = res.json()
         query = Query.objects.get(id=query_id)
         print(f'res: {res.get("result")}')
@@ -43,7 +41,9 @@ class QueryDetail(generics.CreateAPIView):
             query = serializer.save(time_came=datetime.now())
 
             request_post_external_server.delay(
-                url=EXTERNAL_RESULT, data=serializer.data, id=query.id)
+                url=settings.EXTERNAL_RESULT,
+                data=serializer.data, id=query.id
+            )
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -62,12 +62,13 @@ class HistoryList(generics.ListAPIView):
 class PingDetail(generics.RetrieveAPIView):
     def get(self, request):
         try:
-            res = requests.get(EXTERNAL_PING)
+            res = requests.get(settings.EXTERNAL_PING)
             print(res)
             print(res.status_code)
             if res.status_code == status.HTTP_200_OK:
                 return Response('Ok')
             else:
-                return Response(f'Fail!!! {EXTERNAL_PING} {res.status_code}')
+                return Response(f'Fail!!! {settings.EXTERNAL_PING} '
+                                f'{res.status_code}')
         except requests.exceptions.ConnectionError:
-            return Response(f'Нет связи с {EXTERNAL_PING}')
+            return Response(f'Нет связи с {settings.EXTERNAL_PING}')

@@ -61,10 +61,10 @@ python main_service/mangage.py runserver
 
 ### Эндпоинты сервиса:
 
-[http://localhost:8000/query/](http://localhost:8000/query/) - POST для получения запроса
-[http://localhost:8000/result/<id>/](http://localhost:8000/result/1/) - GET для отправки результата
-[http://localhost:8000/ping/](http://localhost:8000/ping/) - POST проверка, что  сервер запустился
-[http://localhost:8000/history/](http://localhost:8000/history/) - GET для получения истории запросов
+[http://localhost:8000/query/](http://localhost:8000/query/) - POST для получения запроса  
+[http://localhost:8000/result/<id>/](http://localhost:8000/result/1/) - GET для отправки результата  
+[http://localhost:8000/ping/](http://localhost:8000/ping/) - POST проверка, что  сервер запустился  
+[http://localhost:8000/history/](http://localhost:8000/history/) - GET для получения истории запросов  
 
 
 ### Автор:

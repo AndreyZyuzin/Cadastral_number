@@ -1,0 +1,37 @@
+version: '3.3'
+
+volumes:
+  sqlite_data:
+  static:
+
+services:
+  db:
+    build: ../main_service
+    volumes:
+      - sqlite_data:/data/db.sqlite3
+    restart: always
+
+  backend:
+    build: ../main_service
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    volumes:
+      - static:/backend_static/
+    restart: always
+
+  external:
+    build: ../external
+    ports:
+      - 8001:8000
+    restart: always
+
+  nginx:
+    image: nginx:1.24.0-alpine-slim
+    ports:
+      - "7800:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static:/static/
+    restart: always
